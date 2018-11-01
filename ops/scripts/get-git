@@ -1,0 +1,12 @@
+#!/bin/bash
+
+for MACHINE in $(docker-machine ls --format '{{.Name}}')
+do
+	#docker-machine ssh $MACHINE 'cd /api && sudo git --git-dir=/api/.git reset --hard'
+        #docker-machine ssh $MACHINE 'cd /api && sudo git --git-dir=/api/.git pull -p'
+	docker-machine ssh $MACHINE 'cd /api && sudo git pull origin master'
+	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose down'
+	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose build'
+	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose up -d --scale api=4'
+done
+echo 'complete'

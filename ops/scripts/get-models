@@ -1,0 +1,11 @@
+#!/bin/bash
+for MACHINE in $(docker-machine ls --format '{{.Name}}')
+do 
+	#docker-machine ssh $MACHINE 'sudo -i s3cmd get --force s3://modelstorage/dynamic.rds /models/dynamic.rds' 
+	docker-machine ssh $MACHINE 'sudo -i s3cmd get --force s3://lucerna/dynamic.rds /models/dynamic.rds'
+	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose down'
+	#docker-machine ssh $MACHINE 'cd /api && sudo docker-compose build'
+	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose up -d --scale api=4'
+done
+
+echo 'complete'
