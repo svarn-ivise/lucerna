@@ -42,13 +42,14 @@ function(){
 }
 
 #* @get /dynaprice
-function(purchase.date, travel.date,cumulative,service,capacity){
+function(purchase.date, purchase.time, travel.date,cumulative,service,capacity,write=T){
   
   cumulative <- as.numeric(cumulative)
   travel.date <- as.Date(travel.date)
   purchase.date <- as.Date(purchase.date)
   service <- as.character(service)
   capacity <- as.numeric(capacity)
+  purchase.datetime <- paste(purchase.date,purchase.time)
   
   price <- Price_recommendation(Travel.Date = travel.date,
                        Purchase.Date = purchase.date,
