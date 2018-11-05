@@ -42,7 +42,7 @@ function(){
 }
 
 #* @get /dynaprice
-function(purchase.date, purchase.time, travel.date,cumulative,service,capacity,write=T){
+function(purchase.date, purchase.time, travel.date,cumulative,service,capacity,qty,write=T){
   
   cumulative <- as.numeric(cumulative)
   travel.date <- as.Date(travel.date)
