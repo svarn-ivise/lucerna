@@ -1,20 +1,20 @@
 #cloud-config
 runcmd:
-  - apt-get update
-  - apt-get install -y sudo apt-get install mysql-client-core-5.7
-  - apt-get install -y git
-  - apt-get install -y awscli
-  - apt-get install -y python3-setuptools
-  - git clone https://github.com/s3tools/s3cmd.git
-  - cd s3cmd && python3 setup.py install
-  - apt-get update
+  - sudo apt-get update
+  - sudo apt-get install -y sudo apt-get install mysql-client-core-5.7
+  - sudo apt-get install -y git
+  - sudo apt-get install -y python3-setuptools
+  - sudo git clone https://github.com/s3tools/s3cmd.git
+  - cd s3cmd && sudo python3 setup.py install
+  - sudo apt-get update
   - cd / && git clone https://github.com/svarn-ivise/api.git
   - "ACCESS_KEY=spaces.key \
-    SECRET_KEY=spaces.secret \
-    LOCATION=spaces.loc \
-    bash -c '/usr/bin/envsubst < /api/aws.s3cfg > /root/.s3cfg'"
+     SECRET_KEY=spaces.secret \
+     LOCATION=spaces.loc \
+     bash -c '/usr/bin/envsubst < /api/aws.s3cfg > /root/.s3cfg'"
   - sudo mkdir /models/
-  - sudo s3cmd get s3://modelstorage/rf.rds /models/rf.rds
+  - sudo s3cmd get s3://lucerna/rf.rds /models/rf.rds
+  - sudo s3cmd get s3://lucerna/dynamic.rds /models/dynamic.rds
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   - sudo chmod +x /usr/local/bin/docker-compose
   - sudo mkdir -p /storage/docker/mysql-datadir
