@@ -12,7 +12,7 @@ runcmd:
   - "ACCESS_KEY=spaces.key \
     SECRET_KEY=spaces.secret \
     LOCATION=spaces.loc \
-    bash -c '/usr/bin/envsubst < /api/template.s3cfg > /root/.s3cfg'"
+    bash -c '/usr/bin/envsubst < /api/aws.s3cfg > /root/.s3cfg'"
   - sudo mkdir /models/
   - sudo s3cmd get s3://modelstorage/rf.rds /models/rf.rds
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.22.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose

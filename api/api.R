@@ -3,7 +3,6 @@ library(RMySQL)
 library(ranger)
 
 ##TEST
-
 db.ip <- "mysql"
 
 model <- readRDS("/models/rf.rds")
@@ -16,7 +15,7 @@ Price <- attr(Price_recommendation,'Price')
 Version <- attr(Price_recommendation,'Version')
 
 
-append.data <- function(df, table.name){
+app <- function(df, table.name){
 
 con <-  dbConnect(RMySQL::MySQL(),
                   username = "shane",
@@ -42,7 +41,8 @@ function(){
 }
 
 #* @get /dynaprice
-function(purchase.date, purchase.time, travel.date,cumulative,service,capacity,qty,write=T){
+function(purchase.date, purchase.time, travel.date, travel.time, 
+         cumulative,service,capacity,qty,buy.price=NULL,write=T){
   
   cumulative <- as.numeric(cumulative)
   travel.date <- as.Date(travel.date)
@@ -56,6 +56,15 @@ function(purchase.date, purchase.time, travel.date,cumulative,service,capacity,q
                        cumsum.previous = cumulative,
                        Service = service,
                        capacity = capacity)
+  
+  if(write){
+    app(data.frame(Travel.Date = travel.date,
+                   Purchase.Date = purchase.datetime,
+                   Service = service,
+                   bookings_per_day = qty,
+                   Price = buy.price,
+                   time = travel.time), "transactions")
+  }
   
   return(price)
   
@@ -112,7 +121,7 @@ function(date,seats,searches){
   price <- as.numeric(predict(price_model, x))
   
   df <- data.frame(Date = c(date), Seats = c(seats) , Days = c(days), Conversion = c(cr), Price = c(price))
-  append.data(df, "dynamic")
+  app(df, "dynamic")
             
   return(list(cr=cr,price=price))
   #return(paste0("To attain a conversion ratio of ",cr,", Price should be equal to $",price))
@@ -149,7 +158,7 @@ function(quantity, date){
   
   df <- data.frame(Date = c(purch.date), Quantity = c(quantity) , Time = c(Sys.time()))
   
-  append.data(df, "trans")
+  app(df, "trans")
   
   return(paste0("Purchase complete; ",quantity," seats bought for ",date))
   
