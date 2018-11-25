@@ -7,7 +7,9 @@ runcmd:
   - sudo git clone https://github.com/s3tools/s3cmd.git
   - cd s3cmd && sudo python3 setup.py install
   - sudo apt-get update
-  - cd / && git clone https://github.com/svarn-ivise/api.git
+  - cd / && git clone https://github.com/svarn-ivise/lucerna.git
+  - sudo mv lucerna/api/ /
+  - sudo rm -r lucerna/
   - "ACCESS_KEY=spaces.key \
      SECRET_KEY=spaces.secret \
      LOCATION=spaces.loc \

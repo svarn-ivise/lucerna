@@ -61,7 +61,7 @@ function(purchase.date, purchase.time, travel.date, travel.time,
     app(data.frame(Travel.Date = travel.date,
                    Purchase.Date = purchase.datetime,
                    Service = service,
-                   bookings_per_day = qty,
+                   Quantity = qty,
                    Price = buy.price,
                    time = travel.time), "transactions")
   }
