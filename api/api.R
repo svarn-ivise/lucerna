@@ -1,11 +1,14 @@
 library(plumber)
 library(RMySQL)
 library(ranger)
+library(keras)
 
 ##TEST
 db.ip <- "mysql"
 
 model <- readRDS("/models/rf.rds")
+nn_model <- load_model_hdf5("/models/nn.h5")
+nn_params <- readRDS("/models/nn_params.rds")
 Price_recommendation <- readRDS("/models/dynamic.rds")
 
 lm_with_Price <- attr(Price_recommendation,'model')
@@ -32,6 +35,66 @@ dbDisconnect(con)
 #* @get /version
 function(){
   return(Version)
+}
+
+#* @get /nn
+function(){
+  return(nn_model$name)
+}
+
+#* @get /nnpred
+function(travel.date, purchase.date, qty, service, cumulative){
+  
+  scale_cols <- c("daydiff","cumsum.previous","Price")
+  
+  travel.mth <- format(as.Date(travel.date), "%m")
+  weekday <- weekdays(as.Date(travel.date))
+  
+  numberOfDays <- function(date) {
+    m <- format(date, format="%m")
+    
+    while (format(date, format="%m") == m) {
+      date <- date + 1
+    }
+    
+    return(as.integer(format(date - 1, format="%d")))
+  }
+  
+  
+  pred_day <- nn_params$sample
+  holidays <- nn_params$holidays
+  school <- nn_params$school
+  
+  if(holidays$public_holiday[holidays$date == travel.date] == "Yes"){
+    pred_day$public_holiday <- 1
+  }
+  
+  if(school$school_holiday[school$date == travel.date] == "Yes"){
+    pred_day$school_holiday <- 1
+  }
+  
+  pred_day[,grepl("Service_",names(pred_day))] <- 0
+  pred_day[,paste0("Service_",service)] <- 1
+  pred_day[,grepl("day.of.week_",names(pred_day))] <- 0
+  pred_day[,paste0("day.of.week_",weekday)] <- 1
+  pred_day$Price <- 138
+  pred_day$daydiff <- as.numeric(as.Date(travel.date) - as.Date(purchase.date))
+  pred_day$cumsum.previous <- as.numeric(cumulative) + as.numeric(qty)
+  #pred_day$month.cos <- cos((2*pi)/12*as.numeric(travel.mth))
+  pred_day[,grepl("month_",names(pred_day))] <- 0
+  pred_day[,paste0("month_",as.character(as.numeric(travel.mth)))] <- 1
+  pred_day[,"day.of.month"] <- as.numeric(format(as.Date(travel.date), "%d"))/numberOfDays(as.Date(travel.date))
+  
+  #return(pred_day)
+  
+  pred_day[,scale_cols] <- scale(pred_day[,scale_cols], 
+                                 center = nn_params$mu, 
+                                 scale = nn_params$sd)
+  
+  #pred_day <- as.numeric(pred_day)
+  #return(pred_day)
+  return(nn_model %>% predict(as.matrix(pred_day)))
+  
 }
 
 

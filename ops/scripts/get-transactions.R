@@ -1,4 +1,5 @@
 #!/usr/lib/R/bin/Rscript
+
 rm(list=ls())
 
 library(dplyr)
@@ -55,7 +56,7 @@ app <- function(object, table){
   
 }
 
-clients <- system("docker-machine ls -f {{.Name}}",intern=T)
+clients <- "intercity" #system("docker-machine ls -f {{.Name}}",intern=T)
 
 for(client in clients){
   

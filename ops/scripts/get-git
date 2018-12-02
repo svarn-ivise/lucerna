@@ -1,6 +1,7 @@
 #!/bin/bash
 
-for MACHINE in $(docker-machine ls --format '{{.Name}}')
+#for MACHINE in $(docker-machine ls --format '{{.Name}}')
+for MACHINE in $(docker-machine ls --format '{{.Name}}' --filter "name=intercity")
 do
 	#docker-machine ssh $MACHINE 'cd /api && sudo git --git-dir=/api/.git reset --hard'
   #docker-machine ssh $MACHINE 'cd /api && sudo git --git-dir=/api/.git pull -p'

@@ -7,7 +7,9 @@ echo $model_name
 #for MACHINE in $(docker-machine ls --format '{{.Name}}')
 #do 
 	#docker-machine ssh $MACHINE 'sudo -i s3cmd get --force s3://modelstorage/dynamic.rds /models/dynamic.rds' 
-	docker-machine ssh $MACHINE "sudo -i s3cmd get --force s3://lucerna/$model_name /models/dynamic.rds"
+	#docker-machine ssh $MACHINE "sudo -i s3cmd get --force s3://lucerna/$model_name /models/dynamic.rds"
+	docker-machine ssh $MACHINE "sudo -i s3cmd get --force s3://lucerna/$model_name /models/nn.h5"
+	docker-machine ssh $MACHINE "sudo -i s3cmd get --force s3://lucerna/params_$model_name /models/nn_params.rds"
 	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose down'
 	#docker-machine ssh $MACHINE 'cd /api && sudo docker-compose build'
 	docker-machine ssh $MACHINE 'cd /api && sudo docker-compose up -d --scale api=4'
