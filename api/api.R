@@ -43,7 +43,7 @@ function(){
 }
 
 #* @get /nnpred
-function(travel.date, purchase.date, qty, service, cumulative){
+function(travel.date, purchase.date, qty, service, cumulative, capacity = NULL){
   
   scale_cols <- c("daydiff","cumsum.previous","Price")
   
@@ -60,6 +60,9 @@ function(travel.date, purchase.date, qty, service, cumulative){
     return(as.integer(format(date - 1, format="%d")))
   }
   
+  
+  if(is.null(capacity)){capacity <- 12}
+  capacity <- as.numeric(capacity)
   
   pred_day <- nn_params$sample
   holidays <- nn_params$holidays
@@ -91,9 +94,11 @@ function(travel.date, purchase.date, qty, service, cumulative){
                                  center = nn_params$mu, 
                                  scale = nn_params$sd)
   
+  prediction <- nn_model %>% predict(as.matrix(pred_day))
+  price <- max((1+(((capacity/prediction)-1)/(-2.5)))*138,117.99)
   #pred_day <- as.numeric(pred_day)
   #return(pred_day)
-  return(nn_model %>% predict(as.matrix(pred_day)))
+  return(list(prediction = prediction, price = price))
   
 }
 

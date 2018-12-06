@@ -93,7 +93,7 @@ client <- "intercity" #system("docker-machine ls -f {{.Name}}",intern=T)
                                       "service" = as.character(service),
                                       "qty" = 0)))
       
-      cumulative.pred <- res[[1]][[1]]
+      cumulative.pred <- as.numeric(res$prediction[[1]])
       
       print(paste0(serv," Seats Sold: ",cumulative," for ",travel_dates[x],", Total Predicted: ",cumulative.pred))
       

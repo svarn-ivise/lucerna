@@ -74,7 +74,7 @@ Session <- fromJSON(content(res, "text"))$Session
 ###SEND REQUEST WITH TODAY AS END DATE
 res <- POST(paste0("https://www.resnet.co.nz/live/rpt/jsl_experiments.w"),
             query = list(
-              SearchFromDate= format(as.Date(`attr<-`(Sys.time(),"tzone","NZ"))-10,"%d%m%Y"),
+              SearchFromDate= format(as.Date(`attr<-`(Sys.time(),"tzone","NZ"))-5,"%d%m%Y"),
               SearchToDate = format(as.Date(`attr<-`(Sys.time(),"tzone","NZ")),"%d%m%Y"),
               Experiment="ZeVLyYGPReKAP9wsI0D48A.",
               ShowSearchData="on",
@@ -91,7 +91,8 @@ logout <- GET("https://www.resnet.co.nz/live/api/logout.r?Session=99999999999999
 price_key <- qry("select * from price_key",NULL,"rds")
 
 #cleaning resnet.data
-resnet.data <- read.csv(text=content(res, "text")) %>% 
+resnet.data <- read.csv(text=content(res, "text"), row.names=NULL) %>% 
+  filter(!is.na(Experiment)) %>% mutate(Experiment= as.character(Experiment)) %>%
   filter(!grepl("ZeVLyYGPReKAP9wsI0D48A|Exp. Variant", .$Searched), Conversion =='Ticketed') %>% 
   arrange(Departs,Searched) %>% select(Departs, Searched,Product,Num.Seats,Experiment) %>% 
   setNames(c("Travel.Date","Purchase.Date", "Service","Quantity","Experiment")) %>%
