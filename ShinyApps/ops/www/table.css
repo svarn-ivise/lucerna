@@ -1,0 +1,170 @@
+html *
+{
+   font-size: 1em !important;
+   color: #000 !important;
+   font-family: 'Kodchasan', sans-serif;
+   font-size:12px;
+    }    
+
+body {
+            width:100%;
+            font-size:1.6em !important;
+
+    }
+h2 {
+            width:100%;
+            font-size:2.2em !important;
+    }
+.irs {
+            width:100%;
+            font-size:.85em !important;
+    } 
+.header {
+  /*background-image: url('https://www.di-athos.be/2010/templates/rt_crystalline_j15/images/overlays/headers/header-2.png');*/
+  height:70px;
+}
+
+table {
+  border-collapse:separate;
+  border:solid black 1px;
+  border-radius:8px;
+  -moz-border-radius:8px;
+}
+
+td, th {
+border-left:solid black 1px;
+border-top:solid black 1px;
+}
+  
+th {
+  background-color: #FFC300;
+  border-top: none;
+}
+
+th:first-child {
+  border-top-left-radius: 8px;
+  -moz-border-top-left-radius:8px;
+}
+th:last-child {
+  border-top-right-radius: 8px;
+  -moz-border-top-right-radius:8px;
+}
+  
+td:first-child, th:first-child {
+  border-left: none;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+tr:nth-child(odd) {
+    background-color: white;
+}
+tr:last-child td:first-child{
+  border-bottom-left-radius:8px;
+  -moz-border-bottom-left-radius:8px;
+}
+tr:last-child td:last-child{
+  border-bottom-right-radius:8px;
+  -moz-border-bottom-right-radius:8px;
+}
+.table-condensed table{
+    border-top-right-radius:0px;
+  -moz-border-bottom-right-radius:0px;
+    border-top-left-radius:0px;
+  -moz-border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+  -moz-border-bottom-right-radius:0px;
+    border-bottom-left-radius:0px;
+  -moz-border-bottom-left-radius:0px;
+}
+#content {
+    position: relative;
+}
+#content img {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 17.5%;
+    height: auto;
+}
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+    z-index: -999;
+       width: 17.5%;
+    height: auto;
+   color: white;
+   text-align: center;
+}
+.demo{ background: #eee; }
+a:hover,a:focus{
+    outline: none;
+    text-decoration: none;
+}
+.nav .nav-tabs{
+    display: inline-block;
+    background: #fff;
+    border-radius: 50px;
+    border: none;
+    padding: 6px;
+}
+.nav .nav-tabs li{
+    float: none;
+    display: inline-block;
+    position: relative;
+}
+.nav .nav-tabs li a{
+    font-size: 16px;
+    font-weight: 700;
+    background: none;
+    color: #999;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 50px;
+    transition: all 0.5s ease 0s;
+}
+.nav .nav-tabs li a:hover{
+    background: #ffa399;
+    color: #fff;
+    border: none;
+}
+.nav .nav-tabs li.active a,
+.nav .nav-tabs li.active a:focus,
+.nav .nav-tabs li.active a:hover{
+    border: none;
+    background: #ffa399;
+    color: #fff;
+}
+.nav .tab-content{
+    font-size: 14px;
+    color: #686868;
+    line-height: 25px;
+    text-align: left;
+    padding: 5px 20px;
+}
+.nav .tab-content h3{
+    font-size: 22px;
+    color: #5b5a5a;
+}
+@media only screen and (max-width: 480px){
+    .nav .nav-tabs{
+        border-radius: 10px;
+    }
+    .nav .nav-tabs li{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+}
+.nav-tabs { border-bottom: 2px solid #DDD; }
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+.nav-tabs > li > a { border: none; color: #666; }
+.nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+.nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.tab-pane { padding: 15px 0; }
+.tab-content{padding:20px}
+
+.card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
